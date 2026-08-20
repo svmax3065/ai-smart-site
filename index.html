@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 智慧工地管理系統</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--line:#e5e7eb;--blue:#2563eb;--green:#16a34a;--orange:#f59e0b;--red:#dc2626}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--text)}
+header{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 28px;justify-content:space-between;position:sticky;top:0;z-index:5}
+.brand{font-size:20px;font-weight:800}.sub{color:var(--muted);font-size:13px;margin-left:10px}
+nav{display:flex;gap:8px;overflow:auto}.nav{border:0;background:transparent;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;color:#475467}.nav.active,.nav:hover{background:#eef4ff;color:var(--blue)}
+main{max-width:1200px;margin:24px auto;padding:0 18px}.page{display:none}.page.active{display:block}
+h1{margin:0 0 6px;font-size:28px}.desc{color:var(--muted);margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 2px 8px #00000008}.kpi{font-size:30px;font-weight:800;margin-top:8px}.label{color:var(--muted);font-size:14px}
+.section{margin-top:18px}.section h2{font-size:19px;margin:0 0 12px}
+.table-wrap{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;min-width:700px}th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line)}th{background:#f8fafc;font-size:13px;color:#475467}tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fff3dd;color:#a15c00}.ok{background:#e9f9ef;color:#087f35}.danger{background:#feecec;color:#b42318}
+.form{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:13px;color:#475467;font-weight:700}input,select,textarea{font:inherit;border:1px solid #d0d5dd;border-radius:10px;padding:10px;background:#fff}textarea{min-height:90px;resize:vertical}.full{grid-column:1/-1}
+.btn{border:0;border-radius:10px;padding:11px 16px;font-weight:800;cursor:pointer}.primary{background:#111827;color:#fff}.blue{background:var(--blue);color:#fff}.green{background:var(--green);color:#fff}.light{background:#eef2f6;color:#344054}
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.empty{padding:28px;text-align:center;color:var(--muted)}
+.goal{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.progress{height:10px;background:#eef2f6;border-radius:99px;overflow:hidden;margin-top:10px}.bar{height:100%;background:var(--blue)}
+.ai{background:#111827;color:#fff;border-radius:16px;padding:18px}.ai p{margin:6px 0;color:#d1d5db}.ai strong{color:#fff}
+@media(max-width:800px){header{height:auto;min-height:60px;flex-direction:column;align-items:flex-start;padding:12px 14px;gap:8px}.grid{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr}main{padding:0 12px;margin:18px auto}h1{font-size:24px}.nav{padding:8px 10px;font-size:13px}.goal{grid-template-columns:1fr}}
+@media(max-width:480px){.grid{grid-template-columns:1fr 1fr}.card{padding:14px}.kpi{font-size:24px}}
+</style>
+</head>
+<body>
+<header>
+  <div><span class="brand">🏗️ AI 智慧工地管理系統</span><span class="sub">關西住宅新建工程</span></div>
+  <nav>
+    <button class="nav active" data-page="dashboard">總覽</button>
+    <button class="nav" data-page="daily">日報表</button>
+    <button class="nav" data-page="materials">進料管理</button>
+    <button class="nav" data-page="tasks">待辦事項</button>
+  </nav>
+</header>
+<main>
+<section id="dashboard" class="page active">
+<h1>工程總覽</h1><div class="desc">掌握今日進度、材料與待辦事項</div>
+<div class="grid">
+<div class="card"><div class="label">工程進度</div><div class="kpi" id="progressKpi">3%</div></div>
+<div class="card"><div class="label">待辦事項</div><div class="kpi" id="taskKpi">2</div></div>
+<div class="card"><div class="label">今日進料</div><div class="kpi" id="materialKpi">1</div></div>
+<div class="card"><div class="label">工程狀態</div><div class="kpi">追蹤中</div></div>
+</div>
+<div class="section"><h2>近期工程目標</h2>
+<div class="card">
+<div class="goal"><div><b>⚡ C區 EFL 水電配管</b><div class="label">目標：配管完成｜期限：8/21前</div><div class="progress"><div class="bar" style="width:30%"></div></div></div><span class="badge">追蹤中</span></div><hr>
+<div class="goal"><div><b>🔩 1FL 鋼筋進場</b><div class="label">目標：一週內進場｜目前庫存：2噸</div></div><span class="badge">待進料</span></div>
+</div></div>
+<div class="section"><div class="ai"><strong>🤖 AI 工程助理</strong><p>目前版本先以現場資料管理為主。輸入「進度」「待辦」「材料」可快速取得目前摘要。</p><input id="aiInput" placeholder="例如：今天水電進料多少？" style="width:100%;margin-top:8px"><div class="actions"><button class="btn blue" onclick="askAI()">分析</button></div><p id="aiReply"></p></div></div>
+</section>
+
+<section id="daily" class="page">
+<h1>📋 今日工程日報</h1><div class="desc">快速記錄今日現場施工與進料</div>
+<div class="card"><div class="form">
+<div class="field"><label>日期</label><input id="dDate" type="date"></div>
+<div class="field"><label>工區</label><input id="dZone" value="水電"></div>
+<div class="field"><label>天氣</label><select id="dWeather"><option>晴</option><option>陰</option><option>雨</option></select></div>
+<div class="field full"><label>今日施工內容</label><textarea id="dWork" placeholder="例：C區 EFL 水電配管"></textarea></div>
+<div class="field full"><label>備註</label><textarea id="dNote"></textarea></div>
+</div><div class="actions"><button class="btn blue" onclick="saveDaily()">儲存日報</button></div></div>
+<div class="section"><h2>最近日報</h2><div class="table-wrap"><table><thead><tr><th>日期</th><th>工區</th><th>天氣</th><th>施工內容</th></tr></thead><tbody id="dailyBody"></tbody></table></div></div>
+</section>
+
+<section id="materials" class="page">
+<h1>📦 進料管理</h1><div class="desc">今日水電進料：可直接新增材料數量</div>
+<div class="card"><div class="form">
+<div class="field"><label>日期</label><input id="mDate" type="date"></div>
+<div class="field"><label>類別</label><select id="mType"><option>水電</option><option>鋼筋</option><option>模板</option><option>其他</option></select></div>
+<div class="field"><label>材料</label><input id="mName" placeholder="例如 PVC管"></div>
+<div class="field"><label>數量</label><input id="mQty" type="number" value="30"></div>
+<div class="field"><label>單位</label><input id="mUnit" value="支"></div>
+<div class="field"><label>供應商</label><input id="mSupplier"></div>
+</div><div class="actions"><button class="btn green" onclick="saveMaterial()">新增進料</button></div></div>
+<div class="section"><h2>進料紀錄</h2><div class="table-wrap"><table><thead><tr><th>日期</th><th>類別</th><th>材料</th><th>數量</th><th>供應商</th></tr></thead><tbody id="materialBody"></tbody></table></div></div>
+</section>
+
+<section id="tasks" class="page">
+<h1>✅ 待辦事項</h1><div class="desc">現場追蹤項目</div>
+<div class="card"><div class="form">
+<div class="field full"><label>新增任務</label><input id="taskName" placeholder="例如：確認1FL鋼筋進場時間"></div>
+<div class="field"><label>期限</label><input id="taskDue" type="date"></div>
+<div class="field"><label>狀態</label><select id="taskStatus"><option>待處理</option><option>進行中</option><option>完成</option></select></div>
+</div><div class="actions"><button class="btn primary" onclick="saveTask()">新增任務</button></div></div>
+<div class="section"><div class="table-wrap"><table><thead><tr><th>任務</th><th>期限</th><th>狀態</th><th></th></tr></thead><tbody id="taskBody"></tbody></table></div></div>
+</section>
+</main>
+<script>
+const today=new Date().toISOString().slice(0,10);
+document.querySelectorAll('input[type=date]').forEach(x=>x.value=today);
+const get=(k,d=[])=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));
+const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+function render(){
+ let mats=get('materials'), tasks=get('tasks'), daily=get('daily');
+ document.getElementById('materialKpi').textContent=mats.length;
+ document.getElementById('taskKpi').textContent=tasks.filter(x=>x.status!=='完成').length;
+ document.getElementById('dailyBody').innerHTML=daily.slice().reverse().map(x=>`<tr><td>${x.date}</td><td>${x.zone}</td><td>${x.weather}</td><td>${x.work||''}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">尚無日報</td></tr>';
+ document.getElementById('materialBody').innerHTML=mats.slice().reverse().map(x=>`<tr><td>${x.date}</td><td>${x.type}</td><td>${x.name}</td><td>${x.qty} ${x.unit}</td><td>${x.supplier||'-'}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">尚無進料紀錄</td></tr>';
+ document.getElementById('taskBody').innerHTML=tasks.map((x,i)=>`<tr><td>${x.name}</td><td>${x.due||'-'}</td><td><span class="badge ${x.status==='完成'?'ok':''}">${x.status}</span></td><td><button class="btn light" onclick="finishTask(${i})">完成</button></td></tr>`).join('')||'<tr><td colspan="4" class="empty">尚無任務</td></tr>';
+}
+function saveDaily(){let a=get('daily');a.push({date:dDate.value,zone:dZone.value,weather:dWeather.value,work:dWork.value,note:dNote.value});set('daily',a);dWork.value='';dNote.value='';render();alert('日報已儲存');}
+function saveMaterial(){let a=get('materials');a.push({date:mDate.value,type:mType.value,name:mName.value,qty:mQty.value,unit:mUnit.value,supplier:mSupplier.value});set('materials',a);render();alert('進料已新增');}
+function saveTask(){let a=get('tasks');a.push({name:taskName.value,due:taskDue.value,status:taskStatus.value});set('tasks',a);taskName.value='';render();}
+function finishTask(i){let a=get('tasks');a[i].status='完成';set('tasks',a);render();}
+function askAI(){let q=aiInput.value.toLowerCase();let r=q.includes('進料')||q.includes('水電')?'今日水電進料目前有 '+get('materials').filter(x=>x.date===today&&x.type==='水電').length+' 筆紀錄。':q.includes('待辦')?'目前未完成待辦 '+get('tasks').filter(x=>x.status!=='完成').length+' 項。':'目前工程進度約 3%，系統可協助追蹤進度、待辦與材料。';aiReply.textContent=r;}
+document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');});
+if(!localStorage.getItem('materials'))set('materials',[{date:today,type:'水電',name:'PVC管',qty:30,unit:'支',supplier:''}]);
+if(!localStorage.getItem('tasks'))set('tasks',[{name:'確認1FL鋼筋進場時間',due:'',status:'待處理'},{name:'確認C區EFL水電配管',due:'2026-08-21',status:'進行中'}]);
+render();
+</script>
+</body>
+</html>
