@@ -1,0 +1,28 @@
+name: Verify attendance v2
+on: push
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: JavaScript syntax
+        run: node --check app-v2.js
+      - name: Required UI and workflow features
+        run: |
+          grep -q "function draftKey" app-v2.js
+          grep -q "id=\\\"back\\\"" app-v2.js
+          grep -q "id=\\\"save\\\"" app-v2.js
+          grep -q "id=\\\"delete\\\"" app-v2.js
+          grep -q "isVi()" app-v2.js
+          grep -q "overall_progress" app-v2.js
+          grep -q "assignment_update" app-v2.js
+          grep -q "name_vi" app-v2.js
+          grep -q "五組翻譯驗證" app-v2.js
+          grep -q '<script src="./app-v2.js"></script>' index.html
+      - name: PWA files
+        run: |
+          test -s manifest.webmanifest
+          test -s sw.js
+          grep -q "app-v2.js" sw.js
